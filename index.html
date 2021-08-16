@@ -204,7 +204,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-16 20:10:21 / 修改时间：20:35:39" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:21+08:00">2021-08-16</time>
+      <time title="创建时间：2021-08-16 20:10:21 / 修改时间：20:48:15" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:21+08:00">2021-08-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,14 +239,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>基本的方法类实现了，下面来实现机器人脚本的一些功能。</p>
 <h2 id="获得敌方随从数"><a href="#获得敌方随从数" class="headerlink" title="获得敌方随从数"></a>获得敌方随从数</h2><p>对屏幕的特定区域进行边缘提取，然后检查其中的3行是否包含边缘像素，这里选择3行而不是1行也是为了避免误判。很多固定的坐标参数都是提前计算好的，游戏分辨率设置为 1920*1080</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def __get_num_of_enemies():</span><br><span class="line">        edges = Util.detectEdge(region=(469, 382, 469+497, 382+42))</span><br><span class="line">        if not (np.any(edges[20]) and np.any(edges[21]) and np.any(edges[22])):</span><br><span class="line">            return 0</span><br><span class="line">        if np.any(edges[20]):</span><br><span class="line">            n1 = list(edges[20]).index(255)</span><br><span class="line">            n2 = list(edges[21]).index(255)</span><br><span class="line">            n3 = list(edges[22]).index(255)</span><br><span class="line">        else:</span><br><span class="line">            return 0</span><br><span class="line">        sector = [50, 110, 180, 250, 320, 390]</span><br><span class="line">        for idx, val in enumerate(sector):</span><br><span class="line">            if n1 &lt; val and n2 &lt; val and n3 &lt; val:</span><br><span class="line">                return 7 - idx</span><br><span class="line">        return 1</span><br></pre></td></tr></table></figure>
-<p>##卡牌识别<br>由于卡牌名称的字体问题，有时识别出来的text会有顺序问题，后面又采用了一个字符串模糊匹配的方式，以提高正确识别率。使用方法 <strong>difflib.SequenceMatcher</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def __getCard(region):</span><br><span class="line">        result = Util.readText(region)</span><br><span class="line">        if len(result) &lt; 1:</span><br><span class="line">            time.sleep(1)</span><br><span class="line">            result = Util.readText(region)</span><br><span class="line"></span><br><span class="line">        if len(result) &lt; 1:</span><br><span class="line">            return Card(&#x27;unknown&#x27;, &#x27;0&#x27;, &#x27;0&#x27;)</span><br><span class="line"></span><br><span class="line">        s = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, result[0])</span><br><span class="line">        card_name = s</span><br><span class="line">        if len(result) &gt; 1:</span><br><span class="line">            for s in result[1:]:</span><br><span class="line">                s = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, s)</span><br><span class="line">                card_name = card_name + &#x27; &#x27; + s</span><br><span class="line">        max_diff = -1</span><br><span class="line">        name = cost = type = &#x27;&#x27;</span><br><span class="line">        for c in cardDB:</span><br><span class="line">            diff = difflib.SequenceMatcher(None, c[&#x27;name&#x27;], card_name).quick_ratio()</span><br><span class="line">            if diff &gt; max_diff:</span><br><span class="line">                name = c[&#x27;name&#x27;]</span><br><span class="line">                cost = c[&#x27;cost&#x27;]</span><br><span class="line">                type = c[&#x27;type&#x27;]</span><br><span class="line">                max_diff = diff</span><br><span class="line">        return Card(name, cost, type)</span><br></pre></td></tr></table></figure>
-<p>cardDB是预先保存好的卡牌信息，在Util中完成初始化。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def initCardDB():</span><br><span class="line">        file = open(&#x27;card.txt&#x27;, &#x27;r&#x27;)</span><br><span class="line">        try:</span><br><span class="line">            lines = file.readlines()</span><br><span class="line">            for line in lines:</span><br><span class="line">                name = line[line.index(&#x27;) &#x27;)+2:]</span><br><span class="line">                name = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, name)</span><br><span class="line">                cost = line[line.index(&#x27;(&#x27;)+1:line.index(&#x27;)&#x27;)]</span><br><span class="line">                info = &#123;&#x27;name&#x27;: name, &#x27;cost&#x27;: cost, &#x27;type&#x27;: &#x27;0&#x27;&#125;</span><br><span class="line">                cardDB.append(info)</span><br><span class="line">        finally:</span><br><span class="line">            file.close()</span><br></pre></td></tr></table></figure>
-<p>card.txt的文件格式，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -297,7 +297,20 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-16 20:10:13 / 修改时间：20:11:59" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:13+08:00">2021-08-16</time>
+      <time title="创建时间：2021-08-16 20:10:13 / 修改时间：20:48:15" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:13+08:00">2021-08-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B8%B8%E6%88%8F%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">游戏脚本</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B8%B8%E6%88%8F%E8%84%9A%E6%9C%AC/%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4/" itemprop="url" rel="index"><span itemprop="name">炉石传说</span></a>
+        </span>
     </span>
 
   
@@ -324,16 +337,14 @@
 <li>通过esayocr进行文字识别，以识别卡牌名称</li>
 <li>通过pyautogui模拟鼠标动作</li>
 </ul>
-<h1 id="Util-类"><a href="#Util-类" class="headerlink" title="Util 类"></a>Util 类</h1><p>Util类实现了脚本用到的一些最基本方法</p>
-<h2 id="图像识别"><a href="#图像识别" class="headerlink" title="图像识别"></a>图像识别</h2><p>核心方法是截取屏幕区域，转成灰度图，再利用 <strong>cv2.matchTemplate</strong> 跟预存的目标图像做匹配</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import numpy as np</span><br><span class="line">from PIL import ImageGrab</span><br><span class="line"></span><br><span class="line">MATCHING_SCORE = 0.8</span><br><span class="line"></span><br><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def matchImage(target, region=(0, 0, 1920, 1080), save=False):</span><br><span class="line">        im = ImageGrab.grab(region)</span><br><span class="line">        if save:</span><br><span class="line">            im.save(&#x27;image.jpg&#x27;)</span><br><span class="line">        im_np = np.array(im)</span><br><span class="line">        src = cv2.cvtColor(im_np, cv2.COLOR_BGR2GRAY)</span><br><span class="line">        tgt = cv2.imread(target, 0)</span><br><span class="line">        result = cv2.matchTemplate(src, tgt, cv2.TM_CCOEFF_NORMED)</span><br><span class="line">        if result.max() &gt;= MATCHING_SCORE:</span><br><span class="line">            return True</span><br><span class="line">        else:</span><br><span class="line">            return False</span><br></pre></td></tr></table></figure>
-<h2 id="边缘提取"><a href="#边缘提取" class="headerlink" title="边缘提取"></a>边缘提取</h2><p>边缘提取主要用来识别场上随从数、起手卡牌数，使用 <strong>cv2.Canny</strong> 方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import numpy as np</span><br><span class="line">from PIL import ImageGrab</span><br><span class="line"></span><br><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def detectEdge(region=(0, 0, 1920, 1080), save=False):</span><br><span class="line">        im = ImageGrab.grab(region)</span><br><span class="line">        if save:</span><br><span class="line">            im.save(&#x27;edge.jpg&#x27;)</span><br><span class="line">        im_np = np.array(im)</span><br><span class="line">        src = cv2.cvtColor(im_np, cv2.COLOR_BGR2GRAY)</span><br><span class="line">        edges = cv2.Canny(src, 100, 300, 3)</span><br><span class="line">        return edges</span><br></pre></td></tr></table></figure>
-<h2 id="文字识别"><a href="#文字识别" class="headerlink" title="文字识别"></a>文字识别</h2><p>文字识别是为了识别手牌的名称，<strong>easyOCR</strong> 是支持中文的，但是测试发现识别正确率不高，因此这里采用英文识别，游戏语言也需要改成英语（这是个折衷的方法）。</p>
-<p>由于卡牌名称的字体问题，有时识别出来的text会有顺序问题，后面又采用了一个字符串模糊匹配的方式，以提高正确识别率。使用的是方法 <strong>difflib.SequenceMatcher</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import easyocr</span><br><span class="line">import numpy as np</span><br><span class="line">from PIL import ImageGrab</span><br><span class="line"></span><br><span class="line">ocr = easyocr.Reader([&#x27;en&#x27;], gpu=False)</span><br><span class="line"></span><br><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def readText(region, save=False):</span><br><span class="line">        im = ImageGrab.grab(region)</span><br><span class="line">        if save:</span><br><span class="line">            im.save(&#x27;char.jpg&#x27;)</span><br><span class="line">        im_np = np.array(im)</span><br><span class="line">        result = ocr.readtext(im_np, detail=0)</span><br><span class="line">        return result</span><br></pre></td></tr></table></figure>
-<h2 id="鼠标动作模拟"><a href="#鼠标动作模拟" class="headerlink" title="鼠标动作模拟"></a>鼠标动作模拟</h2><p>这里使用了孤王o&gt;_&lt;o的方法，加了一个随机变量以避免重复坐标。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def click(x, y):</span><br><span class="line">        t = 20</span><br><span class="line">        pyautogui.click(x + randint(-t, t), y + randint(-t, t))</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def moveTo(x, y):</span><br><span class="line">        t = 20</span><br><span class="line">        pyautogui.moveTo(x + randint(-t, t), y + randint(-t, t))</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
