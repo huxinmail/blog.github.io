@@ -20,23 +20,27 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="My Blog">
-<meta property="og:url" content="http://example.com/index.html">
+<meta name="description" content="玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上孤王o&gt;_&lt;o的文章很有启发，决定自己试一试。 主要技术点涉及：  通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方&#x2F;对方随从数等 通过esayocr进行文字识别，以识别卡牌名称 通过pyautogui模拟鼠标动作  Util 类Util类实现了脚本用到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Python写脚本（1）">
+<meta property="og:url" content="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/index.html">
 <meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上孤王o&gt;_&lt;o的文章很有启发，决定自己试一试。 主要技术点涉及：  通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方&#x2F;对方随从数等 通过esayocr进行文字识别，以识别卡牌名称 通过pyautogui模拟鼠标动作  Util 类Util类实现了脚本用到">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-16T12:10:13.000Z">
+<meta property="article:modified_time" content="2021-08-16T12:11:59.890Z">
 <meta property="article:author" content="Neo Hu">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/","path":"2021/08/16/用Python写脚本（1）/index/","title":"用Python写脚本（1）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>My Blog</title>
+<title>用Python写脚本（1） | My Blog</title>
   
 
   <script src="/js/third-party/analytics/baidu-analytics.js"></script>
@@ -105,7 +109,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -118,6 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Util-%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">Util 类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB"><span class="nav-number">1.1.</span> <span class="nav-text">图像识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96"><span class="nav-number">1.2.</span> <span class="nav-text">边缘提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">文字识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E5%8A%A8%E4%BD%9C%E6%A8%A1%E6%8B%9F"><span class="nav-number">1.4.</span> <span class="nav-text">鼠标动作模拟</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -161,96 +166,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Neo Hu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="My Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/" class="post-title-link" itemprop="url">用Python写脚本（2）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2021-08-16 20:10:21 / 修改时间：20:12:21" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:21+08:00">2021-08-16</time>
-    </span>
-
-  
-    <span id="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写脚本（2）" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>基本的方法类实现了，下面来实现机器人脚本的一些功能。</p>
-<h2 id="获得敌方随从数"><a href="#获得敌方随从数" class="headerlink" title="获得敌方随从数"></a>获得敌方随从数</h2><p>对屏幕的特定区域进行边缘提取，然后检查其中的3行是否包含边缘像素，这里选择3行而不是1行也是为了避免误判。很多固定的坐标参数都是提前计算好的，游戏分辨率设置为 1920*1080</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def __get_num_of_enemies():</span><br><span class="line">        edges = Util.detectEdge(region=(469, 382, 469+497, 382+42))</span><br><span class="line">        if not (np.any(edges[20]) and np.any(edges[21]) and np.any(edges[22])):</span><br><span class="line">            return 0</span><br><span class="line">        if np.any(edges[20]):</span><br><span class="line">            n1 = list(edges[20]).index(255)</span><br><span class="line">            n2 = list(edges[21]).index(255)</span><br><span class="line">            n3 = list(edges[22]).index(255)</span><br><span class="line">        else:</span><br><span class="line">            return 0</span><br><span class="line">        sector = [50, 110, 180, 250, 320, 390]</span><br><span class="line">        for idx, val in enumerate(sector):</span><br><span class="line">            if n1 &lt; val and n2 &lt; val and n3 &lt; val:</span><br><span class="line">                return 7 - idx</span><br><span class="line">        return 1</span><br></pre></td></tr></table></figure>
-<p>##卡牌识别<br>由于卡牌名称的字体问题，有时识别出来的text会有顺序问题，后面又采用了一个字符串模糊匹配的方式，以提高正确识别率。使用方法 <strong>difflib.SequenceMatcher</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def __getCard(region):</span><br><span class="line">        result = Util.readText(region)</span><br><span class="line">        if len(result) &lt; 1:</span><br><span class="line">            time.sleep(1)</span><br><span class="line">            result = Util.readText(region)</span><br><span class="line"></span><br><span class="line">        if len(result) &lt; 1:</span><br><span class="line">            return Card(&#x27;unknown&#x27;, &#x27;0&#x27;, &#x27;0&#x27;)</span><br><span class="line"></span><br><span class="line">        s = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, result[0])</span><br><span class="line">        card_name = s</span><br><span class="line">        if len(result) &gt; 1:</span><br><span class="line">            for s in result[1:]:</span><br><span class="line">                s = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, s)</span><br><span class="line">                card_name = card_name + &#x27; &#x27; + s</span><br><span class="line">        max_diff = -1</span><br><span class="line">        name = cost = type = &#x27;&#x27;</span><br><span class="line">        for c in cardDB:</span><br><span class="line">            diff = difflib.SequenceMatcher(None, c[&#x27;name&#x27;], card_name).quick_ratio()</span><br><span class="line">            if diff &gt; max_diff:</span><br><span class="line">                name = c[&#x27;name&#x27;]</span><br><span class="line">                cost = c[&#x27;cost&#x27;]</span><br><span class="line">                type = c[&#x27;type&#x27;]</span><br><span class="line">                max_diff = diff</span><br><span class="line">        return Card(name, cost, type)</span><br></pre></td></tr></table></figure>
-<p>cardDB是预先保存好的卡牌信息，在Util中完成初始化。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def initCardDB():</span><br><span class="line">        file = open(&#x27;card.txt&#x27;, &#x27;r&#x27;)</span><br><span class="line">        try:</span><br><span class="line">            lines = file.readlines()</span><br><span class="line">            for line in lines:</span><br><span class="line">                name = line[line.index(&#x27;) &#x27;)+2:]</span><br><span class="line">                name = re.sub(r&#x27;[^A-Za-z\&#x27;\- ]+&#x27;, &#x27;&#x27;, name)</span><br><span class="line">                cost = line[line.index(&#x27;(&#x27;)+1:line.index(&#x27;)&#x27;)]</span><br><span class="line">                info = &#123;&#x27;name&#x27;: name, &#x27;cost&#x27;: cost, &#x27;type&#x27;: &#x27;0&#x27;&#125;</span><br><span class="line">                cardDB.append(info)</span><br><span class="line">        finally:</span><br><span class="line">            file.close()</span><br></pre></td></tr></table></figure>
-<p>card.txt的文件格式，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -263,9 +189,9 @@
       <meta itemprop="name" content="My Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/" class="post-title-link" itemprop="url">用Python写脚本（1）</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          用Python写脚本（1）
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -296,7 +222,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44990714/article/details/116588258?utm_medium=distribute.wap_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.wap_blog_relevant_pic&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.wap_blog_relevant_pic"><strong>孤王o&gt;_&lt;o的文章</strong></a>很有启发，决定自己试一试。</p>
+        <p>玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44990714/article/details/116588258?utm_medium=distribute.wap_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.wap_blog_relevant_pic&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-7.wap_blog_relevant_pic"><strong>孤王o&gt;_&lt;o的文章</strong></a>很有启发，决定自己试一试。</p>
 <p>主要技术点涉及：</p>
 <ul>
 <li>通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方/对方随从数等</li>
@@ -313,7 +239,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import easyocr</span><br><span class="line">import numpy as np</span><br><span class="line">from PIL import ImageGrab</span><br><span class="line"></span><br><span class="line">ocr = easyocr.Reader([&#x27;en&#x27;], gpu=False)</span><br><span class="line"></span><br><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def readText(region, save=False):</span><br><span class="line">        im = ImageGrab.grab(region)</span><br><span class="line">        if save:</span><br><span class="line">            im.save(&#x27;char.jpg&#x27;)</span><br><span class="line">        im_np = np.array(im)</span><br><span class="line">        result = ocr.readtext(im_np, detail=0)</span><br><span class="line">        return result</span><br></pre></td></tr></table></figure>
 <h2 id="鼠标动作模拟"><a href="#鼠标动作模拟" class="headerlink" title="鼠标动作模拟"></a>鼠标动作模拟</h2><p>这里使用了孤王o&gt;_&lt;o的方法，加了一个随机变量以避免重复坐标。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def click(x, y):</span><br><span class="line">        t = 20</span><br><span class="line">        pyautogui.click(x + randint(-t, t), y + randint(-t, t))</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def moveTo(x, y):</span><br><span class="line">        t = 20</span><br><span class="line">        pyautogui.moveTo(x + randint(-t, t), y + randint(-t, t))</span><br></pre></td></tr></table></figure>
-      
     </div>
 
     
@@ -321,11 +246,22 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/" rel="next" title="用Python写脚本（2）">
+                  用Python写脚本（2） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
     </footer>
   </article>
 </div>
+
 
 
 
