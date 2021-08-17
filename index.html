@@ -133,7 +133,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -183,7 +183,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -196,7 +196,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/" class="post-title-link" itemprop="url">用Python写脚本（2）</a>
+          <a href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/" class="post-title-link" itemprop="url">用Python写《炉石传说》脚本（4）—— 其他辅助功能</a>
         </h2>
 
         <div class="post-meta-container">
@@ -208,7 +208,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-16 20:10:21 / 修改时间：21:03:27" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:21+08:00">2021-08-16</time>
+      <time title="创建时间：2021-08-17 19:03:57 / 修改时间：19:11:38" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:57+08:00">2021-08-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -221,7 +221,7 @@
     </span>
 
   
-    <span id="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写脚本（2）" title="阅读次数">
+    <span id="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写《炉石传说》脚本（4）—— 其他辅助功能" title="阅读次数">
       <span class="post-meta-item-icon">
         <i class="far fa-eye"></i>
       </span>
@@ -237,11 +237,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>基本的方法类实现了，下面来实现机器人脚本的一些功能。</p>
-<h2 id="获得敌方随从数"><a href="#获得敌方随从数" class="headerlink" title="获得敌方随从数"></a>获得敌方随从数</h2><p>对屏幕的特定区域进行边缘提取，然后检查其中的3行是否包含边缘像素，这里选择3行而不是1行也是为了避免误判。很多固定的坐标参数都是提前计算好的，游戏分辨率设置为 1920*1080</p>
+          <h2 id="信息窗口"><a href="#信息窗口" class="headerlink" title="信息窗口"></a>信息窗口</h2><p>为了方便观察程序的运行状态，做了一个log信息窗。用一个新的线程去运行，与robot线程不冲突。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89/index/#more" rel="contents">
+              <a class="btn" href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -272,7 +271,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -285,7 +284,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/" class="post-title-link" itemprop="url">用Python写脚本（1）</a>
+          <a href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" class="post-title-link" itemprop="url">用Python写《炉石传说》脚本（3）—— Robot类</a>
         </h2>
 
         <div class="post-meta-container">
@@ -297,7 +296,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-16 20:10:13 / 修改时间：20:58:42" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:13+08:00">2021-08-16</time>
+      <time title="创建时间：2021-08-17 19:03:35 / 修改时间：19:09:52" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:35+08:00">2021-08-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -310,7 +309,197 @@
     </span>
 
   
-    <span id="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写脚本（1）" title="阅读次数">
+    <span id="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写《炉石传说》脚本（3）—— Robot类" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>接下来写robot的public方法</p>
+<h2 id="识别卡牌"><a href="#识别卡牌" class="headerlink" title="识别卡牌"></a>识别卡牌</h2><p>由于已经写好了__getCard方法，识别卡牌的接口方法比较简单。抓到的卡牌可以先做unknown标记，然后统一做识别。识别的方法是先把鼠标焦点移到卡牌位置，在大的预览图上做文字识别，识别出的卡牌实例化并按顺序放到list里面。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Neo Hu">
+      <meta itemprop="description" content="明知不可为而为之">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的小站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" class="post-title-link" itemprop="url">用Python写《炉石传说》脚本（2）—— Robot类</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-16 20:10:21" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:21+08:00">2021-08-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-17 19:07:58" itemprop="dateModified" datetime="2021-08-17T19:07:58+08:00">2021-08-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">程序开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写《炉石传说》脚本（2）—— Robot类" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>基本的方法类实现了，下面来实现机器人脚本的一些功能。</p>
+<h2 id="获得敌方随从数"><a href="#获得敌方随从数" class="headerlink" title="获得敌方随从数"></a>获得敌方随从数</h2><p>对屏幕的特定区域进行边缘提取，然后检查其中的3行是否包含边缘像素，这里选择3行而不是1行也是为了避免误判。很多固定的坐标参数都是提前计算好的，游戏分辨率设置为 1920*1080</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Neo Hu">
+      <meta itemprop="description" content="明知不可为而为之">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的小站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/" class="post-title-link" itemprop="url">用Python写《炉石传说》脚本（1）—— Util类</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-16 20:10:13" itemprop="dateCreated datePublished" datetime="2021-08-16T20:10:13+08:00">2021-08-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-17 19:06:14" itemprop="dateModified" datetime="2021-08-17T19:06:14+08:00">2021-08-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">程序开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写《炉石传说》脚本（1）—— Util类" title="阅读次数">
       <span class="post-meta-item-icon">
         <i class="far fa-eye"></i>
       </span>
@@ -335,7 +524,7 @@
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89/index/#more" rel="contents">
+              <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
