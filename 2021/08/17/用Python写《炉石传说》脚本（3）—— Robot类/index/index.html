@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="接下来写robot的public方法 识别卡牌由于已经写好了__getCard方法，识别卡牌的接口方法比较简单。抓到的卡牌可以先做unknown标记，然后统一做识别。识别的方法是先把鼠标焦点移到卡牌位置，在大的预览图上做文字识别，识别出的卡牌实例化并按顺序放到list里面。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Python写《炉石传说》脚本（3）—— Robot类">
+<meta property="og:url" content="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/index.html">
+<meta property="og:site_name" content="我的小站">
+<meta property="og:description" content="接下来写robot的public方法 识别卡牌由于已经写好了__getCard方法，识别卡牌的接口方法比较简单。抓到的卡牌可以先做unknown标记，然后统一做识别。识别的方法是先把鼠标焦点移到卡牌位置，在大的预览图上做文字识别，识别出的卡牌实例化并按顺序放到list里面。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-17T11:03:35.000Z">
+<meta property="article:modified_time" content="2021-08-17T11:09:52.879Z">
+<meta property="article:author" content="Neo Hu">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="游戏脚本">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/","path":"2021/08/17/用Python写《炉石传说》脚本（3）—— Robot类/index/","title":"用Python写《炉石传说》脚本（3）—— Robot类"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用Python写《炉石传说》脚本（3）—— Robot类 | 我的小站</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?2f557b83114307b6a0be6c0b7683b723# <app_id>"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">我的小站</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活点滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E5%8D%A1%E7%89%8C"><span class="nav-number">1.</span> <span class="nav-text">识别卡牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BA%E7%89%8C"><span class="nav-number">2.</span> <span class="nav-text">出牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BB%E5%87%BB"><span class="nav-number">3.</span> <span class="nav-text">攻击</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Neo Hu</p>
+  <div class="site-description" itemprop="description">明知不可为而为之</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Neo Hu">
+      <meta itemprop="description" content="明知不可为而为之">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用Python写《炉石传说》脚本（3）—— Robot类
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-08-17 19:03:35 / 修改时间：19:09:52" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:35+08:00">2021-08-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">程序开发</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" class="post-meta-item leancloud_visitors" data-flag-title="用Python写《炉石传说》脚本（3）—— Robot类" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>接下来写robot的public方法</p>
+<h2 id="识别卡牌"><a href="#识别卡牌" class="headerlink" title="识别卡牌"></a>识别卡牌</h2><p>由于已经写好了__getCard方法，识别卡牌的接口方法比较简单。抓到的卡牌可以先做unknown标记，然后统一做识别。识别的方法是先把鼠标焦点移到卡牌位置，在大的预览图上做文字识别，识别出的卡牌实例化并按顺序放到list里面。</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    def updateCards(self):</span><br><span class="line">        self.__round = self.__round + 1</span><br><span class="line">        gui.changeText(&#x27;\nRound [&#x27; + str(self.__round) + &#x27;] begins&#x27;)</span><br><span class="line">        self.__cards.append(Card(&#x27;unknown&#x27;, 0, &#x27;0&#x27;, 0))</span><br><span class="line"></span><br><span class="line">        n = len(self.__cards)</span><br><span class="line">        for idx, card in enumerate(self.__cards):</span><br><span class="line">            if card.name == &#x27;unknown&#x27;:</span><br><span class="line">                Util.moveTo(C_D[n][idx], 1040)</span><br><span class="line">                time.sleep(0.8)</span><br><span class="line">                card = self.__getCard((C_D[n][idx] - 160, 769, C_D[n][idx] + 160, 769 + 87))</span><br><span class="line">                self.__cards[idx] = card</span><br><span class="line">        self.__exchange.clear()</span><br></pre></td></tr></table></figure>
+<h2 id="出牌"><a href="#出牌" class="headerlink" title="出牌"></a>出牌</h2><p>出牌的策略复杂一些。在有限的法力水晶下，要尽量打出最大的价值。卡牌的价值一般认为与费用相等，但是可以有所调整，比如当敌方随从数大于3个时，AOE的卡牌可以提高价值。这里采用了背包算法实现。</p>
+<p>另外，还得考虑幸运币的使用问题，思路是只有在使用幸运币能得到更大价值的情况下，才使用幸运币。</p>
+<p>最后，还无条件的使用了英雄技能（仅限攻击型技能），反正鼠标操作一下没有什么损失，就没有加任何判断。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    def __dfs(self, start, mana):</span><br><span class="line">        for idx in range(len(self.__cards)):</span><br><span class="line">            if idx &lt; start:</span><br><span class="line">                continue</span><br><span class="line">            if self.__cards[idx].cost &gt; mana:</span><br><span class="line">                continue</span><br><span class="line">            # selected</span><br><span class="line">            v1, t1 = self.__dfs(idx + 1, mana - self.__cards[idx].cost)</span><br><span class="line">            v1 = v1 + self.__cards[idx].val</span><br><span class="line">            t1.append(idx)</span><br><span class="line">            # not selected</span><br><span class="line">            v2, t2 = self.__dfs(idx + 1, mana)</span><br><span class="line"></span><br><span class="line">            if v1 &gt; v2:</span><br><span class="line">                return v1, t1</span><br><span class="line">            else:</span><br><span class="line">                return v2, t2</span><br><span class="line">        return 0, []</span><br><span class="line">		</span><br><span class="line">    def playCard(self):</span><br><span class="line">        self.__mana = 10 if self.__round &gt; 10 else self.__round</span><br><span class="line">        n = self.__get_num_of_minions()</span><br><span class="line">        if n == 7 and self.__round &gt; 1:</span><br><span class="line">            return</span><br><span class="line">        m = self.__get_num_of_enemies()</span><br><span class="line"></span><br><span class="line">        gui.changeText(&#x27;minions [&#x27; + str(n) + &#x27;], enemies [&#x27; + str(m) + &#x27;]&#x27;)</span><br><span class="line">        for card in self.__cards:</span><br><span class="line">            if card.attr == &#x27;AOE&#x27; and m &gt;= 3:</span><br><span class="line">                card.val = card.cost + m / 3</span><br><span class="line">            elif card.attr == &#x27;BUF&#x27; and n &gt;= 2:</span><br><span class="line">                card.val = card.cost + n / 2</span><br><span class="line">            gui.changeText(&#x27;(&#x27; + str(card.cost) + &#x27;) &#x27; + &#x27;[&#x27; + str(card.val) + &#x27;] &#x27; + card.name)</span><br><span class="line">        # 1. Find the best way if not use coin</span><br><span class="line">        v, t = self.__dfs(0, self.__mana)</span><br><span class="line"></span><br><span class="line">        # 2. Update solution if have benefit to use coin</span><br><span class="line">        coin_idx = -1</span><br><span class="line">        for idx, card in enumerate(self.__cards):</span><br><span class="line">            if card.name == &#x27;The coin&#x27;:</span><br><span class="line">                coin_idx = idx</span><br><span class="line">                break</span><br><span class="line"></span><br><span class="line">        if coin_idx &gt; 0:</span><br><span class="line">            vv, tt = self.__dfs(0, self.__mana + 1)</span><br><span class="line">            if vv &gt; v:</span><br><span class="line">                # Use coin</span><br><span class="line">                gui.changeText(&#x27;Use the coin&#x27;)</span><br><span class="line">                Util.moveTo(C_D[len(self.__cards)][coin_idx], 1040)</span><br><span class="line">                Util.click(C_D[len(self.__cards)][coin_idx], 1040)</span><br><span class="line">                time.sleep(0.5)</span><br><span class="line">                Util.moveTo(957, 204)</span><br><span class="line">                Util.click(957, 204)</span><br><span class="line">                del self.__cards[coin_idx]</span><br><span class="line">                v, t = self.__dfs(0, self.__mana + 1)</span><br><span class="line">        gui.changeText(&#x27;Max value [&#x27; + str(v) + &#x27;]&#x27;)</span><br><span class="line">        msg = &#x27;&#x27;</span><br><span class="line">        for it in t:</span><br><span class="line">            sit = &#x27;[&#x27; + str(it) + &#x27;] &#x27;</span><br><span class="line">            msg = msg + sit</span><br><span class="line">        gui.changeText(&#x27;Selected cards &#x27; + msg)</span><br><span class="line"></span><br><span class="line">        # 3. Play cards as plan</span><br><span class="line">        tune = 0</span><br><span class="line">        num_of_cards = len(self.__cards)</span><br><span class="line">        for idx in range(num_of_cards):</span><br><span class="line">            if idx not in t:</span><br><span class="line">                continue</span><br><span class="line">            Util.moveTo(C_D[len(self.__cards)][idx - tune], 1040)</span><br><span class="line">            Util.click(C_D[len(self.__cards)][idx - tune], 1040)</span><br><span class="line">            time.sleep(0.5)</span><br><span class="line">            Util.moveTo(957, 204)</span><br><span class="line">            Util.click(957, 204)</span><br><span class="line">            time.sleep(0.5)</span><br><span class="line">            Util.click(957, 204)</span><br><span class="line">            del self.__cards[idx - tune]</span><br><span class="line">            tune = tune + 1</span><br><span class="line">            time.sleep(2)</span><br><span class="line"></span><br><span class="line">        # 4. Anyway use hero&#x27;s skill</span><br><span class="line">        Util.moveTo(1137, 829)</span><br><span class="line">        Util.click(1137, 829)</span><br><span class="line">        time.sleep(0.5)</span><br><span class="line">        Util.moveTo(957, 204)</span><br><span class="line">        Util.click(957, 204)</span><br><span class="line">        time.sleep(1)</span><br><span class="line"></span><br><span class="line">        for card in self.__cards:</span><br><span class="line">            gui.changeText(&#x27;(&#x27; + str(card.cost) + &#x27;) &#x27; + &#x27;[&#x27; + str(card.val) + &#x27;] &#x27; + card.name)</span><br></pre></td></tr></table></figure>
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>攻击的难点在于对敌方嘲讽随从的识别。试了几种方法，识别率都不好。因此，采用了更粗暴的方法。先打脸，再挨个点击敌方随从。这样做代价是回合时间紧张，而且很容易被人发现是脚本，以后有更好的方法再更新吧。</p>
+<p>最终，还使用了武器，也是无条件走脸。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    def attack(self):</span><br><span class="line">        num_of_minions = self.__get_num_of_minions()</span><br><span class="line">        num_of_enemies = self.__get_num_of_enemies()</span><br><span class="line">        gui.changeText(&#x27;minions [&#x27; + str(num_of_minions) + &#x27;], enemies [&#x27; + str(num_of_enemies) + &#x27;]&#x27;)</span><br><span class="line">        if num_of_minions &gt; 0:</span><br><span class="line">            for i in range(num_of_minions):</span><br><span class="line">                i = i if i &lt; num_of_minions else num_of_minions - 1</span><br><span class="line">                if i &lt; 0:</span><br><span class="line">                    continue</span><br><span class="line"></span><br><span class="line">                # print(f&#x27;num_of_minions = &#123;num_of_minions&#125; and i = &#123;i&#125;&#x27;)</span><br><span class="line">                Util.moveTo(M_D[num_of_minions][i], 588)</span><br><span class="line">                Util.click(M_D[num_of_minions][i], 588)</span><br><span class="line">                time.sleep(0.5)</span><br><span class="line">                Util.moveTo(969, 200)</span><br><span class="line">                Util.click(969, 200)</span><br><span class="line"></span><br><span class="line">                num_of_minions = self.__get_num_of_minions()</span><br><span class="line">                num_of_enemies = self.__get_num_of_enemies()</span><br><span class="line">                gui.changeText(&#x27;minions [&#x27; + str(num_of_minions) + &#x27;], enemies [&#x27; + str(num_of_enemies) + &#x27;]&#x27;)</span><br><span class="line"></span><br><span class="line">                for j in range(num_of_enemies):</span><br><span class="line">                    Util.click(M_D[num_of_enemies][j], 400)</span><br><span class="line">                    time.sleep(0.5)</span><br><span class="line"></span><br><span class="line">        # 5. Use weapon</span><br><span class="line">        Util.moveTo(964, 832)</span><br><span class="line">        Util.click(964, 832)</span><br><span class="line">        time.sleep(0.5)</span><br><span class="line">        Util.moveTo(969, 200)</span><br><span class="line">        Util.click(969, 200)</span><br><span class="line"></span><br><span class="line">        num_of_enemies = self.__get_num_of_enemies()</span><br><span class="line">        for j in range(num_of_enemies):</span><br><span class="line">            Util.click(M_D[num_of_enemies][j], 400)</span><br><span class="line">            time.sleep(0.5)</span><br><span class="line"></span><br><span class="line">        # click end button</span><br><span class="line">        time.sleep(0.5)</span><br><span class="line">        Util.moveTo(1557, 493)</span><br><span class="line">        Util.click(1557, 493)</span><br><span class="line">        gui.changeText(&#x27;Round [&#x27; + str(self.__round) + &#x27;] ends.&#x27;)</span><br><span class="line">        time.sleep(1)</span><br></pre></td></tr></table></figure>
+<p>至此，主要的功能就都实现了。为了更好的记录和调试，又追加了一些辅助功能，下一篇再讲。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Neo Hu
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" title="用Python写《炉石传说》脚本（3）—— Robot类">http://example.com/2021/08/17/用Python写《炉石传说》脚本（3）—— Robot类/index/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E8%84%9A%E6%9C%AC/" rel="tag"># 游戏脚本</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" rel="prev" title="用Python写《炉石传说》脚本（2）—— Robot类">
+                  <i class="fa fa-chevron-left"></i> 用Python写《炉石传说》脚本（2）—— Robot类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/" rel="next" title="用Python写《炉石传说》脚本（4）—— 其他辅助功能">
+                  用Python写《炉石传说》脚本（4）—— 其他辅助功能 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Neo Hu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"GmjWCQHS20q5X8rBdyi49dgC-gzGzoHsz","app_key":"qsqKD2Xj31e1K8OVcgFN6swE","server_url":null,"security":true}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+
+</body>
+</html>
