@@ -563,7 +563,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-17 19:06:14" itemprop="dateModified" datetime="2021-08-17T19:06:14+08:00">2021-08-17</time>
+        <time title="修改时间：2021-08-19 21:53:28" itemprop="dateModified" datetime="2021-08-19T21:53:28+08:00">2021-08-19</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -590,8 +590,7 @@
 <ul>
 <li>通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方/对方随从数等</li>
 <li>通过esayocr进行文字识别，以识别卡牌名称</li>
-<li>通过pyautogui模拟鼠标动作</li>
-</ul>
+<li>通过pyautogui模拟鼠标动作<h1 id="Util-类"><a href="#Util-类" class="headerlink" title="Util 类"></a>Util 类</h1>Util类实现了脚本用到的一些最基本方法<h2 id="图像识别"><a href="#图像识别" class="headerlink" title="图像识别"></a>图像识别</h2>核心方法是截取屏幕区域，转成灰度图，再利用 <strong>cv2.matchTemplate</strong> 跟预存的目标图像做匹配<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import numpy as np</span><br><span class="line">from PIL import ImageGrab</span><br><span class="line"></span><br><span class="line">MATCHING_SCORE = 0.8</span><br><span class="line"></span><br><span class="line">class Util:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def matchImage(target, region=(0, 0, 1920, 1080), save=False):</span><br><span class="line">        im = ImageGrab.grab(region)</span><br><span class="line">        if save:</span><br><span class="line">            im.save(&#x27;image.jpg&#x27;)</span><br><span class="line">        im_np = np.array(im)</span><br><span class="line">        src = cv2.cvtColor(im_np, cv2.COLOR_BGR2GRAY)</span><br><span class="line">        tgt = cv2.imread(target, 0)</span><br><span class="line">        result = cv2.matchTemplate(src, tgt, cv2.TM_CCOEFF_NORMED)</span><br><span class="line">        if result.max() &gt;= MATCHING_SCORE:</span><br><span class="line">            return True</span><br><span class="line">        else:</span><br><span class="line">            return False</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/#more" rel="contents">
