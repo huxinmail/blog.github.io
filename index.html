@@ -210,7 +210,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-08-19 21:24:29 / 修改时间：21:36:04" itemprop="dateCreated datePublished" datetime="2021-08-19T21:24:29+08:00">2021-08-19</time>
+      <time title="创建时间：2021-08-19 21:24:29 / 修改时间：21:37:17" itemprop="dateCreated datePublished" datetime="2021-08-19T21:24:29+08:00">2021-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,7 +232,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><strong>郑桓公</strong>，姬姓，郑氏，名友（受封前称王子友），周厉王姬胡少子，周宣王姬静异母弟，周朝诸侯国郑国第一任君主。<br>周宣王二十二年，受封郑地（今陕西华县东），建立郑国，伯爵，故称郑伯友。<br>郑桓公经营郑地三十三年，备受当地百姓爱戴。周宣王是出了名的玩闹，郑桓公一见国家形势不妙，便迁徙到雒东一带，自成一国。<br>不料第二年，犬戎就杀了周幽王和郑桓公，郑人立子掘突，也就是<strong>郑武公</strong>。</p>
+          <p><strong>郑桓公</strong>，姬姓，郑氏，名友（受封前称王子友），周厉王姬胡少子，周宣王姬静异母弟，周朝诸侯国郑国第一任君主。<br>周宣王二十二年，受封郑地（今陕西华县东），建立郑国，伯爵，故称郑伯友。<br>郑桓公经营郑地三十三年，备受当地百姓爱戴。周宣王是出了名的玩闹，郑桓公一见国家形势不妙，便迁徙到雒东一带，自成一国。<br>不料第二年，犬戎就杀了周幽王和郑桓公，郑人立子掘突，也就是<strong>郑武公</strong>。<br>武公十年，娶了申侯的女儿作为夫人，叫武姜。武姜生了两个儿子。生大儿子的时候是逆生，即脚先出，头后出，取名寤生。小儿子名叫叔段，倍受夫人宠爱。夫人劝武公改立小儿子数段，但是武公没有答应。<br>武公二十七年，武公卒。寤生立，就是<strong>郑庄公</strong>。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/19/%E8%AF%BB%E3%80%8A%E5%8F%B2%E8%AE%B0%E3%80%8B%E2%80%94%E2%80%94%20%E9%83%91/index/#more" rel="contents">
@@ -289,10 +289,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-08-17 19:03:57 / 修改时间：19:11:38" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:57+08:00">2021-08-17</time>
+      <time title="创建时间：2021-08-17 19:03:57" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:57+08:00">2021-08-17</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-19 21:38:30" itemprop="dateModified" datetime="2021-08-19T21:38:30+08:00">2021-08-19</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -314,6 +320,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="信息窗口"><a href="#信息窗口" class="headerlink" title="信息窗口"></a>信息窗口</h2><p>为了方便观察程序的运行状态，做了一个log信息窗。用一个新的线程去运行，与robot线程不冲突。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class GUI:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.root = tkinter.Tk()</span><br><span class="line">        # self.root.overrideredirect(True)  # 覆盖标题栏</span><br><span class="line">        self.root.title(&#x27;HS robot&#x27;)</span><br><span class="line">        self.root.attributes(&#x27;-alpha&#x27;, 0.5)</span><br><span class="line">        self.root.attributes(&#x27;-topmost&#x27;, 1)  # 保持前置</span><br><span class="line">        self.root.geometry(&#x27;280x550+0+100&#x27;)  # 初始大小和位置</span><br><span class="line">        self.text = tkinter.Text(self.root)</span><br><span class="line">        self.text.pack(side=tkinter.LEFT)</span><br><span class="line">        self.text.config(font=(&quot;microsoft yahei&quot;, 10), bg=&#x27;WhiteSmoke&#x27;)</span><br><span class="line">        self.sl = tkinter.Scrollbar(self.root)</span><br><span class="line">        self.sl.pack(side=tkinter.RIGHT, fill=tkinter.Y)</span><br><span class="line">        self.text[&#x27;yscrollcommand&#x27;] = self.sl.set</span><br><span class="line">        self.sl[&#x27;command&#x27;] = self.text.yview</span><br><span class="line"></span><br><span class="line">    def changeText(self, text):</span><br><span class="line">        self.text.insert(tkinter.END, text)</span><br><span class="line">        if not text == &#x27;.&#x27;:</span><br><span class="line">            self.text.insert(tkinter.END, &#x27;\n&#x27;)</span><br><span class="line">        self.text.see(tkinter.END)</span><br><span class="line"></span><br><span class="line">    def show(self):</span><br><span class="line">        self.root.mainloop()</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94%20%E5%85%B6%E4%BB%96%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/index/#more" rel="contents">
@@ -370,10 +377,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-08-17 19:03:35 / 修改时间：19:09:52" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:35+08:00">2021-08-17</time>
+      <time title="创建时间：2021-08-17 19:03:35" itemprop="dateCreated datePublished" datetime="2021-08-17T19:03:35+08:00">2021-08-17</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-19 21:38:12" itemprop="dateModified" datetime="2021-08-19T21:38:12+08:00">2021-08-19</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -396,6 +409,7 @@
     <div class="post-body" itemprop="articleBody">
           <p>接下来写robot的public方法</p>
 <h2 id="识别卡牌"><a href="#识别卡牌" class="headerlink" title="识别卡牌"></a>识别卡牌</h2><p>由于已经写好了__getCard方法，识别卡牌的接口方法比较简单。抓到的卡牌可以先做unknown标记，然后统一做识别。识别的方法是先把鼠标焦点移到卡牌位置，在大的预览图上做文字识别，识别出的卡牌实例化并按顺序放到list里面。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    def updateCards(self):</span><br><span class="line">        self.__round = self.__round + 1</span><br><span class="line">        gui.changeText(&#x27;\nRound [&#x27; + str(self.__round) + &#x27;] begins&#x27;)</span><br><span class="line">        self.__cards.append(Card(&#x27;unknown&#x27;, 0, &#x27;0&#x27;, 0))</span><br><span class="line"></span><br><span class="line">        n = len(self.__cards)</span><br><span class="line">        for idx, card in enumerate(self.__cards):</span><br><span class="line">            if card.name == &#x27;unknown&#x27;:</span><br><span class="line">                Util.moveTo(C_D[n][idx], 1040)</span><br><span class="line">                time.sleep(0.8)</span><br><span class="line">                card = self.__getCard((C_D[n][idx] - 160, 769, C_D[n][idx] + 160, 769 + 87))</span><br><span class="line">                self.__cards[idx] = card</span><br><span class="line">        self.__exchange.clear()</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/17/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/#more" rel="contents">
@@ -460,7 +474,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-17 19:07:58" itemprop="dateModified" datetime="2021-08-17T19:07:58+08:00">2021-08-17</time>
+        <time title="修改时间：2021-08-19 21:37:45" itemprop="dateModified" datetime="2021-08-19T21:37:45+08:00">2021-08-19</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -484,6 +498,7 @@
     <div class="post-body" itemprop="articleBody">
           <p>基本的方法类实现了，下面来实现机器人脚本的一些功能。</p>
 <h2 id="获得敌方随从数"><a href="#获得敌方随从数" class="headerlink" title="获得敌方随从数"></a>获得敌方随从数</h2><p>对屏幕的特定区域进行边缘提取，然后检查其中的3行是否包含边缘像素，这里选择3行而不是1行也是为了避免误判。很多固定的坐标参数都是提前计算好的，游戏分辨率设置为 1920*1080</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Robot:</span><br><span class="line">    @staticmethod</span><br><span class="line">    def __get_num_of_enemies():</span><br><span class="line">        edges = Util.detectEdge(region=(469, 382, 469+497, 382+42))</span><br><span class="line">        if not (np.any(edges[20]) and np.any(edges[21]) and np.any(edges[22])):</span><br><span class="line">            return 0</span><br><span class="line">        if np.any(edges[20]):</span><br><span class="line">            n1 = list(edges[20]).index(255)</span><br><span class="line">            n2 = list(edges[21]).index(255)</span><br><span class="line">            n3 = list(edges[22]).index(255)</span><br><span class="line">        else:</span><br><span class="line">            return 0</span><br><span class="line">        sector = [50, 110, 180, 250, 320, 390]</span><br><span class="line">        for idx, val in enumerate(sector):</span><br><span class="line">            if n1 &lt; val and n2 &lt; val and n3 &lt; val:</span><br><span class="line">                return 7 - idx</span><br><span class="line">        return 1</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/#more" rel="contents">
