@@ -25,7 +25,7 @@
 <meta name="description" content="玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上孤王o&gt;_&lt;o的文章很有启发，决定自己试一试。 主要技术点涉及：  通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方&#x2F;对方随从数等 通过esayocr进行文字识别，以识别卡牌名称 通过pyautogui模拟鼠标动作Util 类Util类实现了脚本用到的一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用Python写《炉石传说》脚本（1）—— Util类">
-<meta property="og:url" content="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/index.html">
+<meta property="og:url" content="http://example.com/2021/08/16/hearthstone_robot_1/index/index.html">
 <meta property="og:site_name" content="我的小站">
 <meta property="og:description" content="玩炉石也好几年了，氪金之外发现有些套牌也够无脑的。于是有了写个脚本刷等级刷奖励的想法。读了CSDN上孤王o&gt;_&lt;o的文章很有启发，决定自己试一试。 主要技术点涉及：  通过cv2实现图像处理、目标匹配，识别当前状态，比如：当前游戏状态，是否先手，己方&#x2F;对方随从数等 通过esayocr进行文字识别，以识别卡牌名称 通过pyautogui模拟鼠标动作Util 类Util类实现了脚本用到的一">
 <meta property="og:locale" content="zh_CN">
@@ -37,11 +37,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/">
+<link rel="canonical" href="http://example.com/2021/08/16/hearthstone_robot_1/index/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/","path":"2021/08/16/用Python写《炉石传说》脚本（1）—— Util类/index/","title":"用Python写《炉石传说》脚本（1）—— Util类"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/08/16/hearthstone_robot_1/index/","path":"2021/08/16/hearthstone_robot_1/index/","title":"用Python写《炉石传说》脚本（1）—— Util类"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>用Python写《炉石传说》脚本（1）—— Util类 | 我的小站</title>
@@ -191,7 +191,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/16/hearthstone_robot_1/index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -295,7 +295,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://example.com/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%20Util%E7%B1%BB/index/" title="用Python写《炉石传说》脚本（1）—— Util类">http://example.com/2021/08/16/用Python写《炉石传说》脚本（1）—— Util类/index/</a>
+      <a href="http://example.com/2021/08/16/hearthstone_robot_1/index/" title="用Python写《炉石传说》脚本（1）—— Util类">http://example.com/2021/08/16/hearthstone_robot_1/index/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -314,7 +314,7 @@
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/2021/08/16/%E7%94%A8Python%E5%86%99%E3%80%8A%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E3%80%8B%E8%84%9A%E6%9C%AC%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%20Robot%E7%B1%BB/index/" rel="next" title="用Python写《炉石传说》脚本（2）—— Robot类">
+                <a href="/2021/08/16/hearthstone_robot_2/index/" rel="next" title="用Python写《炉石传说》脚本（2）—— Robot类">
                   用Python写《炉石传说》脚本（2）—— Robot类 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
